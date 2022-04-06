@@ -1,0 +1,47 @@
+server:
+  port: 8189
+  servlet:
+    context-path: /baraka
+
+spring:
+  output:
+    ansi:
+      enabled: always
+  main:
+    banner-mode: console
+  application:
+    name: baraka-bank
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    #test url for localhost for another you need to specify for example with java environment
+    url: jdbc:postgresql://localhost:5432/baraka?currentSchema=baraka
+    username: postgres
+    password: admin
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        default_schema: baraka
+        dialect: org.hibernate.dialect.PostgreSQL94Dialect
+        format_sql: true
+        types:
+          print:
+            banner: false
+    open-in-view: false
+  flyway:
+    encoding: UTF-8
+    create-schemas: true
+    schemas: baraka
+  jackson:
+    time-zone: Europe/Moscow
+logging:
+springdoc:
+  api-docs:
+    path: "/api-docs"
+  swagger-ui:
+    path: "/swagger-ui.html"
+    disable-swagger-default-url: true
+    enabled: true
+    operationsSorter: alpha
+    tagsSorter: alpha
+    doc-expansion: none
