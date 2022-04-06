@@ -3,7 +3,7 @@ LABEL maintainer="Alex Grigorev"
 VOLUME /tmp
 WORKDIR /app
 #
-COPY /target/dist/*.jar /app/app.jar
+COPY /banking-application-src/target/*.jar /app/app.jar
 RUN mkdir /app/log
 RUN mkdir /app/config
 ENV JAVA_TOOL_OPTIONS=""
