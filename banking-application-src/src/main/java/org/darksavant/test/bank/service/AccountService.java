@@ -21,4 +21,5 @@ public interface AccountService {
     BigDecimal transfer(TransferMoneyRequest request);
     Account deposit(DepositMoneyRequest request);
     Account withdraw(WithdrawMoneyRequest request);
+    void checkUserPermissions(Long accountId, User user);
 }

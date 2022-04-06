@@ -5,6 +5,7 @@ import org.darksavant.test.bank.api.dto.OperationDto;
 import org.darksavant.test.bank.api.dto.request.DepositMoneyRequest;
 import org.darksavant.test.bank.api.dto.request.TransferMoneyRequest;
 import org.darksavant.test.bank.api.dto.request.WithdrawMoneyRequest;
+import org.darksavant.test.bank.domain.model.User;
 
 import java.util.List;
 
@@ -17,4 +18,5 @@ public interface OperationService {
     OperationDto transfer(TransferMoneyRequest request);
     OperationDto deposit(DepositMoneyRequest request);
     OperationDto withdraw(WithdrawMoneyRequest request);
+    void checkUserPermissions(Long operationId, User user);
 }
