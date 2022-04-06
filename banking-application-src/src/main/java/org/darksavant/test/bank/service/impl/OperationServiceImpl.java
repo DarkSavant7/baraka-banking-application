@@ -10,6 +10,8 @@ import org.darksavant.test.bank.api.dto.request.WithdrawMoneyRequest;
 import org.darksavant.test.bank.api.enums.OperationType;
 import org.darksavant.test.bank.domain.model.Account;
 import org.darksavant.test.bank.domain.model.Operation;
+import org.darksavant.test.bank.domain.model.User;
+import org.darksavant.test.bank.error.NotEnoughPermissionsException;
 import org.darksavant.test.bank.error.NotFoundException;
 import org.darksavant.test.bank.repository.OperationRepository;
 import org.darksavant.test.bank.service.AccountService;
@@ -20,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -127,5 +130,19 @@ public class OperationServiceImpl implements OperationService {
         operation = repository.save(operation);
         log.info("Withdraw finish {}", request);
         return mapper.operationToDto(operation);
+    }
+
+    @Override
+    @Transactional
+    public void checkUserPermissions(Long operationId, User user) {
+        Operation operation = findById(operationId);
+        if (!Objects.equals(operation.getAccount().getUser(), user)) {
+            throw new NotEnoughPermissionsException("You don't have permissions for this operation");
+        }
+    }
+
+    private Operation findById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Operation with id " + id + " not found"));
     }
 }

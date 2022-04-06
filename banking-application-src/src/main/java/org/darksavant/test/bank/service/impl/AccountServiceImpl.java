@@ -12,6 +12,7 @@ import org.darksavant.test.bank.domain.model.Account;
 import org.darksavant.test.bank.domain.model.User;
 import org.darksavant.test.bank.error.BadRequestException;
 import org.darksavant.test.bank.error.InsufficientMoneyException;
+import org.darksavant.test.bank.error.NotEnoughPermissionsException;
 import org.darksavant.test.bank.error.NotFoundException;
 import org.darksavant.test.bank.repository.AccountRepository;
 import org.darksavant.test.bank.service.AccountService;
@@ -114,6 +115,15 @@ public class AccountServiceImpl implements AccountService {
         }
         account.setAmount(account.getAmount().subtract(amount));
         return repository.save(account);
+    }
+
+    @Override
+    @Transactional
+    public void checkUserPermissions(Long accountId, User user) {
+        Account account = findById(accountId);
+        if (!Objects.equals(account.getUser(), user)) {
+            throw new NotEnoughPermissionsException("You don't have permissions for this operation");
+        }
     }
 
     private BigDecimal transfer(Account from, Account to, BigDecimal sumInFromCurrency) {

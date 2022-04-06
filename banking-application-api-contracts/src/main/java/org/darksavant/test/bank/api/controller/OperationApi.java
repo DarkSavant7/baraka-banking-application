@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.security.Principal;
 import java.util.List;
 
 @Tag(name = "OPERATIONS", description = "Set of endpoints to make operations with accounts")
@@ -37,10 +36,6 @@ public interface OperationApi {
     @GetMapping("/account/{id}")
     ResponseEntity<AccountDto> getAccountById(@Parameter(name = "accountId", description = "ID of the acc") @PathVariable("id") Long accountId);
 
-    @Operation(summary = "Get current user account")
-    @GetMapping("/account")
-    ResponseEntity<AccountDto> getAccount(@Parameter(hidden = true) Principal principal);
-
     @Operation(summary = "Get all accounts")
     @GetMapping("/account/all")
     ResponseEntity<List<AccountDto>> getAccounts();
@@ -51,7 +46,7 @@ public interface OperationApi {
 
     @Operation(summary = "Get current user operations")
     @GetMapping("/operation")
-    ResponseEntity<List<OperationDto>> getOperations(@Parameter(hidden = true) Principal principal);
+    ResponseEntity<List<OperationDto>> getOperations();
 
 
     @Operation(summary = "Transfer")
